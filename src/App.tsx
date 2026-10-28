@@ -2,6 +2,7 @@ import Hero from './components/Hero'
 import Introduction from './components/Introduction'
 import Services from './components/Services'
 import Anniversary from './components/Anniversary'
+import News from './components/News'
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Introduction />
         <Services />
         <Anniversary />
+        <News />
       </main>
     </>
   )
