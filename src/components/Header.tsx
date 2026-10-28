@@ -13,6 +13,12 @@ const primaryItems = [
   'Advertise',
 ]
 
+const primaryTargets: Partial<Record<string, string>> = {
+  'About us': '#what-we-do',
+  Media: '#media',
+  Careers: '#career-support',
+}
+
 const aboutItems = [
   'What We Do',
   'Council 2025',
@@ -144,7 +150,7 @@ export default function Header() {
             alt=""
           />
           <div className="navigation-content relative z-10">
-            <div className="navigation-search flex items-center gap-5 border-b border-offwhite/40">
+            <div className="navigation-search flex items-center gap-5 border-b border-offwhite/40" aria-hidden="true">
               <picture className="shrink-0">
                 <source
                   media="(max-width: 1023px)"
@@ -152,21 +158,18 @@ export default function Header() {
                 />
                 <img src="/assets/search-desktop.svg" alt="" />
               </picture>
-              <input
-                className="min-w-0 flex-1 bg-transparent text-lg placeholder:text-offwhite/60 focus:outline-none"
-                type="search"
-                aria-label="Search"
-                placeholder="Search here"
-              />
+              <span className="navigation-search-placeholder min-w-0 flex-1 text-lg text-offwhite/60">
+                Search here
+              </span>
             </div>
             <nav className="navigation-lists grid" aria-label="Primary">
               <ul className="primary-navigation flex flex-col gap-[15px] font-display text-[30px] uppercase">
                 {primaryItems.map((item, index) => (
                   <li key={item}>
-                    {index === 0 ? (
+                    {primaryTargets[item] ? (
                       <a
-                        className="text-gold underline decoration-1 underline-offset-4"
-                        href="#what-we-do"
+                        className={index === 0 ? 'text-gold underline decoration-1 underline-offset-4' : undefined}
+                        href={primaryTargets[item]}
                         onClick={closeMenu}
                       >
                         {item}
