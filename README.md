@@ -39,5 +39,8 @@ must be checked before publishing; local validation alone does not establish the
 
 The carousel shows 1 card below 768px, 2 at 768–1279px and 3 at 1280px and above,
 as required by the assessment, rather than the partial-card Figma previews.
-Other unfinished homepage sections and existing placeholder destinations remain
-outside this phase. No autoplay or entrance animations are included.
+Road to 2027, Legal Support, Career Support and the footer use the extracted Figma
+assets and copy. Timeline years are static because only 2025 content was supplied.
+Support, career and footer destinations were not supplied and remain unavailable;
+the footer logo links back to the existing homepage anchor. Copyright and update
+text retain the design's 2025 values. No autoplay or entrance animations are included.
