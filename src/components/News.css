@@ -54,6 +54,9 @@
 .news-image-fallback { padding: 20px; color: #404040; text-align: center; font-size: 14px; }
 .news-card-copy { display: flex; flex: 1; flex-direction: column; padding-top: 35px; }
 .news-date { font-size: 14px; line-height: 24px; }
+.news-meta { font-size: 14px; line-height: 24px; overflow-wrap: anywhere; }
+.news-meta-separator { margin-inline: 8px; }
+.news-meta .news-date { white-space: nowrap; }
 .news-card-title {
   margin-top: 16px;
   font-size: 32px;
@@ -79,14 +82,13 @@
   gap: 14px;
   margin-top: auto;
   padding-top: 26px;
-  color: #7e6539;
+  color: #5b4520;
   font-size: 16px;
   line-height: 30px;
   font-weight: 600;
   text-transform: uppercase;
 }
 .news-read-more:hover {
-  color: #5b4520;
   text-decoration: none;
 }
 .news-position { margin-top: 28px; font-size: 12px; line-height: 20px; color: #404040; }

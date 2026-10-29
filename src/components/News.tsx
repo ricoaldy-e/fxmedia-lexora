@@ -9,6 +9,7 @@ type Article = {
   thumbnail: string | null
   excerpt: string
   byline: string
+  category?: string | null
 }
 
 type NewsState =
@@ -29,7 +30,8 @@ function isArticle(value: unknown): value is Article {
     typeof article.date === 'string' && Number.isFinite(Date.parse(article.date)) &&
     typeof article.url === 'string' && article.url.startsWith('https://') &&
     (article.thumbnail === null || typeof article.thumbnail === 'string') &&
-    typeof article.excerpt === 'string' && typeof article.byline === 'string'
+    typeof article.excerpt === 'string' && typeof article.byline === 'string' &&
+    (article.category === undefined || article.category === null || typeof article.category === 'string')
 }
 
 function loadNews() {
@@ -241,7 +243,15 @@ export default function News() {
                 <article className="news-card" aria-labelledby={`news-article-${index}`}>
                   <NewsImage thumbnail={article.thumbnail} />
                   <div className="news-card-copy">
-                    <time className="news-date" dateTime={article.date}>{dateFormat.format(new Date(article.date))}</time>
+                    <p className="news-meta">
+                      {article.category?.trim() && (
+                        <>
+                          <span className="news-category">{article.category}</span>
+                          <span className="news-meta-separator" aria-hidden="true">|</span>{' '}
+                        </>
+                      )}
+                      <time className="news-date" dateTime={article.date}>{dateFormat.format(new Date(article.date))}</time>
+                    </p>
                     <h3 id={`news-article-${index}`} className="news-card-title font-display uppercase">{article.title}</h3>
                     <p className="news-excerpt">{article.excerpt}</p>
                     {article.byline && <p className="news-byline">{article.byline}</p>}

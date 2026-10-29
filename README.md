@@ -24,6 +24,8 @@ articles, and return up to 12 cards with the required metadata. Missing excerpts
 are backfilled from standfirst or excluded; unavailable images use a neutral
 fallback. HTML is stripped from excerpts, and React renders text without HTML
 injection. The official Guardian attribution logo links to the source.
+Cards show the original Guardian section beside the required DD MMM YYYY date.
+If the category is absent, only the date is shown; no category is invented.
 
 Netlify's response cache headers request a 15-minute durable CDN cache and a
 5-minute browser cache. These reduce upstream calls without a custom cache;

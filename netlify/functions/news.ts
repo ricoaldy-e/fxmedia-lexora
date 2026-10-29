@@ -52,6 +52,7 @@ function normalizeArticle(value: unknown) {
   return {
     id: typeof value.id === 'string' ? value.id : url,
     title, date, url, excerpt,
+    category: plainText(value.sectionName) || null,
     thumbnail: httpsUrl(fields.thumbnail, 'guim.co.uk'),
     byline: plainText(fields.byline),
   }
