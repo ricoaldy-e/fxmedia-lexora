@@ -70,6 +70,17 @@
 }
 
 /* Artwork is positioned within each section; the page itself remains in normal flow. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-entrance] {
+    transition: opacity 500ms ease-out, translate 500ms ease-out;
+  }
+  [data-entrance='pending'] { opacity: 0; translate: 0 12px; transition: none; }
+  /* The track and cards never inherit entrance transforms. */
+  #media[data-entrance] { translate: none; }
+  #media[data-entrance] .news-heading-row { transition: translate 500ms ease-out; }
+  #media[data-entrance='pending'] .news-heading-row { translate: 0 12px; transition: none; }
+}
+
 .hero {
   height: clamp(720px, 62.5vw, 1000px);
   overflow: clip;

@@ -49,4 +49,7 @@ Road to 2027, Legal Support, Career Support and the footer use the extracted Fig
 assets and copy. Timeline years are static because only 2025 content was supplied.
 Support, career and footer destinations were not supplied and remain unavailable;
 the footer logo links back to the existing homepage anchor. Copyright and update
-text retain the design's 2025 values. No entrance animations are included.
+text retain the design's 2025 values. Below-the-fold sections enter once with a
+500ms fade and 12px rise. News uses a fade with movement only on its heading so
+carousel measurements stay intact. Reduced motion, anchor navigation and keyboard
+focus show content immediately; unsupported IntersectionObserver leaves it visible.
