@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import './News.css'
 
 type Article = {
@@ -59,12 +59,58 @@ function NewsImage({ thumbnail }: { thumbnail: string | null }) {
   )
 }
 
+function NewsSkeleton() {
+  return (
+    <>
+      <p className="sr-only" role="status">Loading the latest news…</p>
+      <div className="news-track news-skeleton-track" aria-hidden="true">
+        {[0, 1, 2].map(index => (
+          <div className="news-slide news-card news-skeleton-card" key={index}>
+            <div className="news-image news-skeleton-block" />
+            <div className="news-card-copy">
+              <div className="news-date"><span className="news-skeleton-block news-skeleton-date" /></div>
+              <div className="news-card-title news-skeleton-lines">
+                <span className="news-skeleton-block" /><span className="news-skeleton-block" />
+              </div>
+              <div className="news-excerpt news-skeleton-lines">
+                <span className="news-skeleton-block" /><span className="news-skeleton-block" /><span className="news-skeleton-block" />
+              </div>
+              <div className="news-byline"><span className="news-skeleton-block news-skeleton-byline" /></div>
+              <div className="news-read-more"><span className="news-skeleton-block news-skeleton-action" /></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </>
+  )
+}
+
 export default function News() {
   const [state, setState] = useState<NewsState>({ status: 'loading' })
   const [attempt, setAttempt] = useState(0)
   const [position, setPosition] = useState({ first: 0, visible: 1 })
+  const [rotationEnabled, setRotationEnabled] = useState(() => !matchMedia('(prefers-reduced-motion: reduce)').matches)
+  const [reducedMotion, setReducedMotion] = useState(() => matchMedia('(prefers-reduced-motion: reduce)').matches)
+  const [hovered, setHovered] = useState(false)
+  const [pageVisible, setPageVisible] = useState(() => !document.hidden)
   const trackRef = useRef<HTMLUListElement>(null)
   const firstRef = useRef(0)
+  const pointerRotationRef = useRef(false)
+
+  useEffect(() => {
+    const preference = matchMedia('(prefers-reduced-motion: reduce)')
+    function updateMotion() {
+      setReducedMotion(preference.matches)
+      if (preference.matches) setRotationEnabled(false)
+    }
+    function updateVisibility() { setPageVisible(!document.hidden) }
+    preference.addEventListener('change', updateMotion)
+    document.addEventListener('visibilitychange', updateVisibility)
+    return () => {
+      preference.removeEventListener('change', updateMotion)
+      document.removeEventListener('visibilitychange', updateVisibility)
+    }
+  }, [])
 
   useEffect(() => {
     let active = true
@@ -90,6 +136,7 @@ export default function News() {
       const visible = Math.round((track.clientWidth + gap) / step)
       const first = Math.min(Math.max(0, count - visible), Math.round(track.scrollLeft / step))
       firstRef.current = first
+      if (first >= Math.max(0, count - visible)) setRotationEnabled(false)
       setPosition(previous => previous.first === first && previous.visible === visible
         ? previous : { first, visible })
     }
@@ -112,7 +159,7 @@ export default function News() {
     return () => { observer.disconnect(); track.removeEventListener('scroll', measure) }
   }, [count])
 
-  function move(direction: number) {
+  const move = useCallback((direction: number) => {
     const track = trackRef.current
     const card = track?.firstElementChild as HTMLElement | null
     if (!track || !card) return
@@ -120,6 +167,19 @@ export default function News() {
     const step = card.getBoundingClientRect().width + gap
     const next = Math.max(0, Math.min(count - position.visible, Math.round(track.scrollLeft / step) + direction))
     track.scrollTo({ left: next * step, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' })
+  }, [count, position.visible])
+
+  const atEnd = count > 0 && position.first >= Math.max(0, count - position.visible)
+
+  useEffect(() => {
+    if (atEnd || !rotationEnabled || hovered || !pageVisible || reducedMotion || count <= position.visible) return
+    const timer = window.setTimeout(() => move(1), 6000)
+    return () => window.clearTimeout(timer)
+  }, [atEnd, rotationEnabled, hovered, pageVisible, reducedMotion, count, position.visible, position.first, move])
+
+  function manualMove(direction: number) {
+    setRotationEnabled(false)
+    move(direction)
   }
 
   function retry() {
@@ -128,26 +188,41 @@ export default function News() {
   }
 
   return (
-    <section id="media" className="news-section" aria-labelledby="news-title">
+    <section id="media" className="news-section" aria-labelledby="news-title" aria-roledescription="carousel"
+      onPointerEnter={event => { if (event.pointerType !== 'touch') setHovered(true) }}
+      onPointerLeave={() => setHovered(false)}
+      onFocusCapture={() => setRotationEnabled(false)}>
       <div className="news-heading-row">
         <h2 id="news-title" className="section-label font-display uppercase text-burgundy underline underline-offset-4">
           Media &amp; press
         </h2>
         {count > 0 && (
-          <div className="news-controls" aria-label="News carousel controls">
+          <div className="news-controls" role="group" aria-label="News carousel controls">
+            <button type="button" aria-label={rotationEnabled ? 'Pause news autoplay' : 'Play news autoplay'}
+              aria-controls="news-track" disabled={reducedMotion || count <= position.visible || atEnd}
+              title={reducedMotion ? 'Autoplay is off while reduced motion is enabled' : undefined}
+              onPointerDown={() => { pointerRotationRef.current = rotationEnabled }}
+              onClick={event => {
+                // Pointer intent is captured before focus stops rotation; keyboard Play remains explicit.
+                setRotationEnabled(!(event.detail === 0 ? rotationEnabled : pointerRotationRef.current))
+              }}>
+              <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                {rotationEnabled ? <path d="M7 5h3v14H7zm7 0h3v14h-3z" /> : <path d="m8 5 11 7-11 7z" />}
+              </svg>
+            </button>
             <button type="button" aria-label="Previous news" aria-controls="news-track"
-              disabled={position.first === 0} onClick={() => move(-1)}>
+              disabled={position.first === 0} onClick={() => manualMove(-1)}>
               <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M20 12H4m7-7-7 7 7 7" /></svg>
             </button>
             <button type="button" aria-label="Next news" aria-controls="news-track"
-              disabled={position.first >= count - position.visible} onClick={() => move(1)}>
+              disabled={position.first >= count - position.visible} onClick={() => manualMove(1)}>
               <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M4 12h16m-7-7 7 7-7 7" /></svg>
             </button>
           </div>
         )}
       </div>
 
-      {state.status === 'loading' && <p className="news-message" role="status">Loading the latest news…</p>}
+      {state.status === 'loading' && <NewsSkeleton />}
       {state.status === 'error' && (
         <div className="news-message" role="alert">
           <p>We couldn’t load the news right now. Please try again shortly.</p>
@@ -159,7 +234,8 @@ export default function News() {
       )}
       {state.status === 'ready' && count > 0 && (
         <>
-          <ul id="news-track" className="news-track" ref={trackRef} aria-label="Latest Guardian articles">
+          <ul id="news-track" className="news-track" ref={trackRef} aria-label="Latest Guardian articles"
+            onPointerDown={() => setRotationEnabled(false)} onWheel={() => setRotationEnabled(false)}>
             {state.articles.map((article, index) => (
               <li className="news-slide" key={article.id}>
                 <article className="news-card" aria-labelledby={`news-article-${index}`}>
@@ -178,7 +254,7 @@ export default function News() {
               </li>
             ))}
           </ul>
-          <p className="news-position" role="status" aria-live="polite" aria-atomic="true">
+          <p className="news-position" role="status" aria-live={rotationEnabled ? 'off' : 'polite'} aria-atomic="true">
             Articles {position.first + 1}–{Math.min(count, position.first + position.visible)} of {count}
           </p>
         </>
