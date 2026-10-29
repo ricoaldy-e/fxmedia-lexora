@@ -26,7 +26,7 @@ function App() {
       entries.forEach(entry => {
         if (entry.isIntersecting) reveal(entry.target as HTMLElement)
       })
-    }, { rootMargin: '0px 0px -40px 0px', threshold: 0 })
+    }, { rootMargin: '0px 0px -100px 0px', threshold: 0 })
 
     function reveal(section: HTMLElement, immediate = false) {
       if (!pending.delete(section)) return

@@ -50,6 +50,7 @@ assets and copy. Timeline years are static because only 2025 content was supplie
 Support, career and footer destinations were not supplied and remain unavailable;
 the footer logo links back to the existing homepage anchor. Copyright and update
 text retain the design's 2025 values. Below-the-fold sections enter once with a
-500ms fade and 12px rise. News uses a fade with movement only on its heading so
+600ms fade and 12px rise, triggered about 100px inside the viewport. News uses a
+fade with movement only on its heading so
 carousel measurements stay intact. Reduced motion, anchor navigation and keyboard
 focus show content immediately; unsupported IntersectionObserver leaves it visible.
