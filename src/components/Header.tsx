@@ -62,6 +62,7 @@ function SocialLinks({ light = false }: { light?: boolean }) {
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [searchUnavailable, setSearchUnavailable] = useState(false)
   const dialogRef = useRef<HTMLDialogElement>(null)
 
   useEffect(() => {
@@ -83,7 +84,10 @@ export default function Header() {
     }
   }, [menuOpen])
 
-  const closeMenu = () => setMenuOpen(false)
+  const closeMenu = () => {
+    setMenuOpen(false)
+    setSearchUnavailable(false)
+  }
 
   return (
     <>
@@ -150,7 +154,13 @@ export default function Header() {
             alt=""
           />
           <div className="navigation-content relative z-10">
-            <div className="navigation-search flex items-center gap-5 border-b border-offwhite/40" aria-hidden="true">
+            <form
+              className="navigation-search flex items-center gap-5 border-b border-offwhite/40"
+              onSubmit={(event) => {
+                event.preventDefault()
+                setSearchUnavailable(true)
+              }}
+            >
               <picture className="shrink-0">
                 <source
                   media="(max-width: 1023px)"
@@ -158,10 +168,24 @@ export default function Header() {
                 />
                 <img src="/assets/search-desktop.svg" alt="" />
               </picture>
-              <span className="navigation-search-placeholder min-w-0 flex-1 text-lg text-offwhite/60">
-                Search here
-              </span>
-            </div>
+              <input
+                className="min-w-0 flex-1 bg-transparent text-lg placeholder:text-offwhite/60 focus:outline-none"
+                type="search"
+                aria-label="Search"
+                aria-describedby={searchUnavailable ? 'navigation-search-status' : undefined}
+                placeholder="Search here"
+                onChange={() => setSearchUnavailable(false)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Escape') {
+                    event.preventDefault()
+                    closeMenu()
+                  }
+                }}
+              />
+              <p id="navigation-search-status" className="navigation-search-message" role="status">
+                {searchUnavailable ? 'Search is unavailable' : ''}
+              </p>
+            </form>
             <nav className="navigation-lists grid" aria-label="Primary">
               <ul className="primary-navigation flex flex-col gap-[15px] font-display text-[30px] uppercase">
                 {primaryItems.map((item, index) => (

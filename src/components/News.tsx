@@ -137,11 +137,11 @@ export default function News() {
           <div className="news-controls" aria-label="News carousel controls">
             <button type="button" aria-label="Previous news" aria-controls="news-track"
               disabled={position.first === 0} onClick={() => move(-1)}>
-              <span aria-hidden="true">←</span>
+              <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M20 12H4m7-7-7 7 7 7" /></svg>
             </button>
             <button type="button" aria-label="Next news" aria-controls="news-track"
               disabled={position.first >= count - position.visible} onClick={() => move(1)}>
-              <span aria-hidden="true">→</span>
+              <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M4 12h16m-7-7 7 7-7 7" /></svg>
             </button>
           </div>
         )}

@@ -26,7 +26,7 @@ export default function Services() {
       {services.map((service, index) => (
         <article
           key={service.title}
-          className={`service-card relative ${index === 1 ? 'service-card-featured' : ''}`}
+          className="service-card relative"
           aria-labelledby={`service-${index}`}
         >
           <div className="service-body relative isolate overflow-hidden">
@@ -59,32 +59,25 @@ export default function Services() {
                 {service.title.slice(service.title.lastIndexOf(' ') + 1)}
               </span>
             </h3>
-            {index === 1 && (
-              <p className="service-description hidden text-lg leading-[30px] lg:block">
-                Lorem ipsum dolor sit amet Lorem ipsum
-              </p>
-            )}
+            <p className="service-description hidden text-lg leading-[30px] lg:block">
+              Lorem ipsum dolor sit amet Lorem ipsum
+            </p>
           </div>
           <div
             className="service-action flex items-center gap-2.5"
             aria-hidden="true"
           >
-            {index === 1 && (
-              <span className="service-more hidden text-lg font-semibold uppercase tracking-[0.01em] lg:inline">
+            <span className="cta-arrow service-neutral-arrow">
+              <img src="/assets/arrow-charcoal.svg" alt="" />
+            </span>
+            <span className="service-hover-content inline-flex items-center gap-2.5">
+              <span className="service-more text-lg font-semibold uppercase tracking-[0.01em]">
                 More detail
               </span>
-            )}
-            <span className="cta-arrow service-arrow">
-              <img
-                src={`/assets/arrow-${index === 1 ? 'offwhite' : 'charcoal'}.svg`}
-                alt=""
-              />
-            </span>
-            {index === 1 && (
-              <span className="cta-arrow service-mobile-arrow">
-                <img src="/assets/arrow-charcoal.svg" alt="" />
+              <span className="cta-arrow">
+                <img src="/assets/arrow-offwhite.svg" alt="" />
               </span>
-            )}
+            </span>
           </div>
         </article>
       ))}

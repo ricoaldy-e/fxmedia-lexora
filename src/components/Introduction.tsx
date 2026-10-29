@@ -34,7 +34,7 @@ export default function Introduction() {
             needy, the Lexora has established&nbsp;Pro Bono SG...
           </span>
           <span className="lg:hidden"> ...</span>{' '}
-          <span className="font-semibold text-gold">Read more</span>
+          <span className="introduction-read-more font-semibold text-gold">Read more</span>
         </p>
       </div>
     </section>

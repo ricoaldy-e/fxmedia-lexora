@@ -85,7 +85,7 @@
   font-weight: 600;
   text-transform: uppercase;
 }
-.news-read-more:hover { text-decoration: underline; text-underline-offset: 4px; }
+.news-read-more:hover { text-decoration: none; }
 .news-position { margin-top: 28px; font-size: 12px; line-height: 20px; color: #404040; }
 .news-attribution { display: inline-block; margin-top: 24px; }
 .news-attribution img { width: 140px; height: 45px; }
