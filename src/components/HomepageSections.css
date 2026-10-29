@@ -129,7 +129,7 @@
   .legal-texture { left: -16px; top: 243px; width: 434px; height: 392px; clip-path: none; }
   .legal-texture > div { width: 392px; height: 434px; }
   .legal-paper-edge { bottom: -134px; height: 221px; }
-  .legal-paper-mobile { display: block; position: absolute; left: calc(50% - 720px); top: 0; max-width: none; }
+  .legal-paper-mobile { display: block; position: absolute; left: calc(50% - 720px); top: 0; width: 1441.83px; height: 221px; max-width: none; }
   .legal-accent-clip img { left: calc(50% - 210px); bottom: 12px; }
   .press-region { box-shadow: 0 -22px 0 #ebecee; }
   .career-section { height: 515px; }
