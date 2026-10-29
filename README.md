@@ -1,4 +1,4 @@
-# Lexora — Responsive Legal Website
+# Lexora
 
 A responsive homepage implementation based on a supplied Figma frontend assessment design, integrated with The Guardian Open Platform API via serverless Netlify Functions.
 
@@ -10,7 +10,7 @@ This repository represents an assessment project implementing a mock legal websi
 ## Features
 
 - **Responsive Homepage Layout:** Complete implementation of desktop and mobile designs across Hero, Introduction, Services, 60th Anniversary, Road to 2027, Legal Support, Media, Career Support, and Footer sections.
-- **Guardian News Carousel:** Dynamic news section consuming The Guardian API through a Netlify Function proxy. Renders 1 card below 768px, 2 cards at 768–1279px, and 3 cards at 1280px and above.
+- **Guardian News Carousel:** Dynamic news section consuming The Guardian API through a Netlify Function proxy. Renders 1 card below 768px, 2 cards at 768-1279px, and 3 cards at 1280px and above.
 - **Loading & State Handling:** Responsive skeleton cards during data fetching, accessible empty and error states with a retry action, and neutral image fallbacks for missing thumbnails.
 - **Accessible Autoplay & Controls:** Six-second carousel rotation that pauses on hover or background tab visibility, stops on focus or manual interaction, and includes an accessible Play/Pause toggle.
 - **Modal Navigation:** Accessible navigation drawer built with native `<dialog>`, featuring body scroll locking, focus trapping, and `Escape` key dismissal.
@@ -52,10 +52,10 @@ npm ci
 
 ### Development & Build Commands
 
-- `npm run dev:netlify` — Starts Vite alongside the local Netlify Functions emulator at `http://localhost:8888`. Use this command for full local news API functionality.
-- `npm run dev` — Starts the Vite dev server alone (UI only; news API requests will not resolve without the Netlify function).
-- `npm run lint` — Runs oxlint across the project.
-- `npm run build` — Type-checks and builds production assets into `dist/`.
+- `npm run dev:netlify`: Starts Vite alongside the local Netlify Functions emulator at `http://localhost:8888`. Use this command for full local news API functionality.
+- `npm run dev`: Starts the Vite dev server alone (UI only; news API requests will not resolve without the Netlify function).
+- `npm run lint`: Runs oxlint across the project.
+- `npm run build`: Type-checks and builds production assets into `dist/`.
 
 ## Deployment
 
