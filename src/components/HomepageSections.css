@@ -106,7 +106,13 @@
 }
 @media (max-width: 1023px) {
   .road-section { padding: 47px 30px 0; }
-  .road-texture { display: none; }
+  .road-texture {
+    top: -95px;
+    left: calc(100% - 327px);
+    width: 516px;
+    height: 344px;
+    background-image: linear-gradient(223.3deg, var(--color-paper) 35.846%, #f9f9f900 64.081%), url('/assets/paper-texture-aged-export.png');
+  }
   .road-section .section-label { font-size: 18px; line-height: 27px; }
   .road-title { max-width: 295px; margin-top: 15px; font-size: 24px; line-height: 36px; }
   .road-layout { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'years' 'image' 'copy'; row-gap: 25px; margin-top: 50px; padding-top: 24px; }
