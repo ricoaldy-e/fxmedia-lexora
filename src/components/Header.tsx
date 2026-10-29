@@ -45,9 +45,10 @@ function SocialLinks({ light = false }: { light?: boolean }) {
             role="img"
             aria-label={network}
           >
-            <img
-              src={`/assets/social-${network}-${light ? 'light' : 'gold'}.svg`}
-              alt=""
+            <span
+              className="social-icon"
+              style={{ maskImage: `url('/assets/social-${network}-gold.svg')` }}
+              aria-hidden="true"
             />
           </span>
         ))}
