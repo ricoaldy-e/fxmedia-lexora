@@ -150,3 +150,7 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
+# Assessment documents and internal design notes
+/DESIGN_NOTES.md
+/Intern_Test_Case.docx
